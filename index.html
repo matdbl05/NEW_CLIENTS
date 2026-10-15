@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria La Siesta 2.0 Da Lambo | Schiavon</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8R5YJSDDWV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8R5YJSDDWV', {
+    'storage': 'none'
+    });
+    </script>
+    
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --border-color: #333333;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Regola per i numeri di telefono */
+        a[href^="tel:"] {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            background: #000;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            color: #fff;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 800;
+        }
+
+        .hero-content h2 {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .info-badge {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            margin: 5px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Griglia delle categorie principali */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: #fff;
+            background: #1a1a1a;
+        }
+
+        .category-card i {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .category-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Sezione Menu Dinamica (Finestre a comparsa) */
+        .menu-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            display: none; 
+            animation: fadeIn 0.3s ease-in-out;
+            margin-bottom: 40px;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .menu-header h3 {
+            color: #fff;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .sub-category-title {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-transform: uppercase;
+            margin: 30px 0 15px 0;
+            border-left: 3px solid #fff;
+            padding-left: 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .menu-item {
+            background: #0f0f0f;
+            padding: 16px 20px;
+            border-radius: 6px;
+            border: 1px solid #222;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            border-color: #444;
+            background: #131313;
+        }
+
+        .item-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-price {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .supplements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .supplement-item {
+            background: #0f0f0f;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .supplement-item:hover {
+            border-color: #444;
+            background: #131313;
+        }
+
+        .supplement-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .supplement-price {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .info-box h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p, .info-box li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            list-style: none;
+        }
+
+        .maps-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 12px;
+            transition: var(--transition);
+        }
+
+        .maps-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .cta-box {
+            text-align: center;
+            margin: 40px 0;
+            padding: 35px;
+            background: #141414;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #141414;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Hero Section -->
+    <header>
+        <div class="hero-content">
+            <h1>La Siesta 2.0</h1>
+            <h2>Da Lambo • Schiavon (VI)</h2>
+            <div>
+                <span class="info-badge"><i class="fa-solid fa-clock"></i> 18:00 - 21:30 (Inverno)</span>
+                <span class="info-badge"><i class="fa-solid fa-car"></i> Asporto & Domicilio</span>
+                <span class="info-badge"><i class="fa-solid fa-phone"></i> <a href="tel:3395425565">339 542 5565</a></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <div class="section-title">
+            <h2>Il Nostro Menù</h2>
+            <p>Seleziona una categoria per visualizzare l'offerta completa</p>
+        </div>
+
+        <!-- Griglia 3x2 (3 sopra, 3 sotto) -->
+        <div class="categories-grid">
+            <div class="category-card" onclick="openMenu('sezione-pizze')">
+                <i class="fa-solid fa-pizza-slice"></i>
+                <h3>Le Nostre Pizze</h3>
+                <p>Classiche, Speciali e Bianche</p>
+            </div>
+            <div class="category-card" onclick="openMenu('pizze-pala')">
+                <i class="fa-solid fa-bread-slice"></i>
+                <h3>Pizze in Pala</h3>
+                <p>Formato 25x55 cm per 2/3 persone</p>
+            </div>
+            <div class="category-card" onclick="openMenu('panini-wrap')">
+                <i class="fa-solid fa-utensils"></i>
+                <h3>Club Sandwich & Wrap</h3>
+                <p>Rotoli wrap, piadine e toast farciti</p>
+            </div>
+            <div class="category-card" onclick="openMenu('hamburger')">
+                <i class="fa-solid fa-burger"></i>
+                <h3>Hamburger & Panini</h3>
+                <p>Carne 100% Angus e pollo crispy</p>
+            </div>
+            <div class="category-card" onclick="openMenu('box-menu')">
+                <i class="fa-solid fa-box-open"></i>
+                <h3>Box Menù (Promo)</h3>
+                <p>Mercoledì-Venerdì con bibita e patatine</p>
+            </div>
+            <div class="category-card" onclick="openMenu('fritti')">
+                <i class="fa-solid fa-drumstick-bite"></i>
+                <h3>I Fritti & Calzoncini</h3>
+                <p>Olive ascolane, nuggets, patatine e fritti</p>
+            </div>
+        </div>
+
+        <!-- FINESTRA: LE PIZZE -->
+        <div id="sezione-pizze" class="menu-section">
+            <div class="menu-header">
+                <h3>Menu Pizze & Bruschette</h3>
+                <button class="close-btn" onclick="closeMenu('sezione-pizze')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p style="color:var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">Composte da pane artigianale</p>
+
+            <!-- Tradizionali & Classiche -->
+            <div class="sub-category-title">Pizze Tradizionali & Classiche</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Amicizia</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, melanzane, salamino, provola, parmigiano a scaglie.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Boscaiola</span><span class="item-price">8,60</span></div><div class="item-desc">Pom, mozz, asiago, mistobosco.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bufalina</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, pomodorini, bufala dopo cottura.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Caliero</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, radicchio, pomodori secchi, pancetta nostrana.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Carbonara</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, pancetta bacon, uova, pepe.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Carilon</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, porcini, asparagi, parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Carnivora</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, prosciutto, würstel, salamino, salsiccia.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cecilia</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, peperoni in agrodolce, gorgonzola dop, porchetta trevigiana.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Clara</span><span class="item-price">10,00</span></div><div class="item-desc">Pom, mozz, salmone affumicato, pesto alla genovese, pomodorini.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Curiosa</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, asparagi, asiago, gorgonzola, parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Caffè</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, cipolla alla piastra, lardo di Colonnata, polvere di caffè.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Capricciosa</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi, carciofi, salamino.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dade</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, gorgonzola dop, salamino, salsiccia.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Diavola</span><span class="item-price">7,50</span></div><div class="item-desc">Pom, mozz, salamino.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Estiva</span><span class="item-price">7,00</span></div><div class="item-desc">Pom, mozz, pomodoro a fette, basilico.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Fantasia</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, provola, pomodorini, speck dopo cottura.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Farcita</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi, carciofi, salsiccia, würstel.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Fesa</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, porro, fesa di Tacchino, salsa senape, miele.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Fiera</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, salsiccia, peperoni freschi, cipolla.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Griglia</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, melanzane, zucchine, peperoni grigliati.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gorgonzola DOP e Speck</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, gorgonzola, speck.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Longa</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, stracchino, salsiccia, patate al forno.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Marinara</span><span class="item-price">5,00</span></div><div class="item-desc">Pom, aglio, origano, basilico.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Margherita</span><span class="item-price">5,50</span></div><div class="item-desc">Pomodoro, mozzarella.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mantelli</span><span class="item-price">9,50</span></div><div class="item-desc">Pom, mozz, tartufo, provola, speck.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mexicana</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, salamino, pomodori secchi, olive, pancetta nostrana, origano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Monica</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, radicchio, asparagi, melanzane grigliate, parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Nocciolata</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, mascarpone, gorgonzola dop, noci.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Nordica</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, panna, salmone affumicato.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Napoletana</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, acciughe, capperi, olive.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Patatosa</span><span class="item-price">7,50</span></div><div class="item-desc">Pom, mozz, patatine fritte.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Parmigiana</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, melanzane grigliate, parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Prosciutto e Funghi</span><span class="item-price">7,50</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pugliese</span><span class="item-price">6,50</span></div><div class="item-desc">Pom, mozz, cipolla.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Poldo</span><span class="item-price">8,00</span></div><div class="item-desc">Pom, mozz, salsiccia, würstel, patatine fritte.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Piemonte</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, bresaola, rucola, parmigiano a scaglie.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Romana</span><span class="item-price">6,50</span></div><div class="item-desc">Pom, mozz, acciughe.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Rustica</span><span class="item-price">9,50</span></div><div class="item-desc">Pom, mozz, sopressa, brie, porcini.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Regina</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, gorgonzola dop, spinaci, prosciutto.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Saporita</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, radicchio, lardo di Colonnata.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Siciliana</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, acciughe, capperi, olive, salamino, origano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Schiavon</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, sfilacci, rucola, parmigiano a scaglie.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">4 Stagioni</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi, carciofi, salamino.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">4 Formaggi</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, gorgonzola dop, asiago, parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Tirolese</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, panna, funghi, speck.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Tonno e Cipolla</span><span class="item-price">7,50</span></div><div class="item-desc">Pom, mozz, tonno, cipolla.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Viennese</span><span class="item-price">7,00</span></div><div class="item-desc">Pom, mozz, würstel.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Verdure</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, asparagi, carciofi, melanzane grigliate, spinaci, peperoni freschi.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Zinghera</span><span class="item-price">8,50</span></div><div class="item-desc">Pom, mozz, prosciutto, salamino, olive miste, peperoni in agrodolce.</div></div>
+            </div>
+
+            <!-- Le Bianche -->
+            <div class="sub-category-title">Le Bianche</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bianca A</span><span class="item-price">10,00</span></div><div class="item-desc">Mozzarella, lardo di colonnata, porcini, tartufo.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bianca B</span><span class="item-price">9,00</span></div><div class="item-desc">Mozzarella, peperoni grigliati, pancetta nostrana, scaglie di parmigiano.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bianca C</span><span class="item-price">12,00</span></div><div class="item-desc">Mozzarella, mortadella, stracciatella, granella di pistacchio.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bianca D</span><span class="item-price">11,00</span></div><div class="item-desc">Mozzarella, pulled pork, ciuffi di maionese.</div></div>
+            </div>
+
+            <!-- Le Speciali -->
+            <div class="sub-category-title">Le Speciali</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bronte</span><span class="item-price">10,00</span></div><div class="item-desc">Pom, mozz, crudo di Parma 18 mesi, pomodorini, granella di pistacchio.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Contessa</span><span class="item-price">10,00</span></div><div class="item-desc">Crudo di Parma 18 mesi, bufala, pomodorini, rucola.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Divina</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, gamberetti, zucchine, rucola.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Duchessa</span><span class="item-price">10,00</span></div><div class="item-desc">Pomodorini, rucola, bufala, speck.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Guance-Rosse</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, radicchio, pancetta nostrana, parmigiano a scaglie, aceto balsamico in glassa.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Imperiale</span><span class="item-price">10,00</span></div><div class="item-desc">Pom, mozz, porcini, speck, pomodorini, rucola, bufala.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">La Siesta 2.0</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, gamberetti, pomodorini, aglio, basilico dopo cottura.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Light</span><span class="item-price">10,00</span></div><div class="item-desc">Pom, mozz, salmone affumicato, zucchine, philadelphia.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mille Gusti</span><span class="item-price">9,00</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi, carciofi, asparagi, olive, acciughe, capperi, salamino.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Milano</span><span class="item-price">10,00</span></div><div class="item-desc">Pom, mozz, mistobosco, gorgonzola dop, crudo di Parma 18 mesi.</div></div>
+            </div>
+
+            <!-- Supplementi & Variazioni -->
+            <div class="sub-category-title">Supplementi & Variazioni</div>
+            <div class="supplements-list">
+                <div class="supplement-item"><span class="supplement-name">Pizza Battuta</span><span class="supplement-price">+5,00</span></div>
+                <div class="supplement-item"><span class="supplement-name">Napoletana</span><span class="supplement-price">+1,00</span></div>
+                <div class="supplement-item"><span class="supplement-name">Impasti Speciali (Integrale)</span><span class="supplement-price">+1,00</span></div>
+                <div class="supplement-item"><span class="supplement-name">Baby</span><span class="supplement-price">-0,50</span></div>
+                <div class="supplement-item"><span class="supplement-name">Bufala, Stracciatella</span><span class="supplement-price">+3,00 / 3,50</span></div>
+                <div class="supplement-item"><span class="supplement-name">Ingredienti Abbondanti</span><span class="supplement-price">+1,50 / 2,50</span></div>
+                <div class="supplement-item"><span class="supplement-name">Affettati</span><span class="supplement-price">+2,00</span></div>
+            </div>
+        </div>
+
+        <!-- FINESTRA DEDICATA: PIZZE IN PALA -->
+        <div id="pizze-pala" class="menu-section">
+            <div class="menu-header">
+                <h3>Pizze in Pala</h3>
+                <button class="close-btn" onclick="closeMenu('pizze-pala')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="sub-category-title">Pizze in Pala (25x55 cm - Per 2/3 persone)</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gorgonzola DOP e Speck Adige IGP</span><span class="item-price">23,00</span></div><div class="item-desc">Pom, mozz, gorgonzola DOP, speck.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Malga</span><span class="item-price">22,00</span></div><div class="item-desc">Mozzarella fior di latte, finferli, gorgonzola dop.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Margherita</span><span class="item-price">16,00</span></div><div class="item-desc">Pom, mozzarella.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Prosciutto e Funghi</span><span class="item-price">20,00</span></div><div class="item-desc">Pom, mozz, prosciutto, funghi.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Salamino</span><span class="item-price">18,00</span></div><div class="item-desc">Pom, mozzarella, salamino.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Salmon</span><span class="item-price">25,00</span></div><div class="item-desc">Mozzarella fior di latte, salmone affumicato, porro.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Peppa Pig</span><span class="item-price">23,00</span></div><div class="item-desc">Mozzarella fior di latte, porchetta trevigiana, bovis.</div></div>
+            </div>
+        </div>
+
+        <!-- FINESTRA: CLUB SANDWICH, WRAP & PIADINE -->
+        <div id="panini-wrap" class="menu-section">
+            <div class="menu-header">
+                <h3>Club Sandwich, Wrap & Piadine</h3>
+                <button class="close-btn" onclick="closeMenu('panini-wrap')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sub-category-title">Club Sandwich</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Club Sandwich Classico</span><span class="item-price">10,00</span></div><div class="item-desc">Pane da toast, formaggio filante, bacon alla griglia, frittata, fesa di tacchino, insalata, pomodoro a fette, maionese.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Club Sandwich Vegetariano</span><span class="item-price">12,00</span></div><div class="item-desc">Pane da toast, formaggio filante, frittata, insalata, pomodoro a fette, verdure grigliate (peperoni, zucchine, melanzane).</div></div>
+            </div>
+
+            <div class="sub-category-title">Rotoli Wrap</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">La Bandida</span><span class="item-price">9,50</span></div><div class="item-desc">Bandidos di pollo fritto, insalata croccante, pomodoro a fette, grana a scaglie, salsa mayo.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">La Gentile</span><span class="item-price">9,00</span></div><div class="item-desc">Striscioline di pollo alla piastra, insalata gentile, zucchine grigliate, salsa senape e miele.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">La Pata Pollo</span><span class="item-price">9,00</span></div><div class="item-desc">Striscioline di pollo grigliate, insalata gentile, patate al forno con buccia, pomodoro a fette, maionese.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">La Crispy</span><span class="item-price">9,50</span></div><div class="item-desc">Striscioline di pollo fritto, rucola, cipolla fritta, salsa yogurt.</div></div>
+            </div>
+
+            <div class="sub-category-title">Piadine</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Crudo</span><span class="item-price">7,50</span></div><div class="item-desc">Prosciutto Crudo & stracciatella.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Piada Pollo</span><span class="item-price">8,50</span></div><div class="item-desc">Filetti di pollo fritto con insalata, pomodoro e maionese.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cotto</span><span class="item-price">6,50</span></div><div class="item-desc">Mozzarella e prosciutto cotto.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Grigliata</span><span class="item-price">7,50</span></div><div class="item-desc">Peperoni, zucchine, melanzane grigliate e mozzarella.</div></div>
+            </div>
+
+            <!-- Supplementi Panini -->
+            <div class="sub-category-title">Supplementi Panini</div>
+            <div class="supplements-list">
+                <div class="supplement-item"><span class="supplement-name">Bacon / Pomodorini confit</span><span class="supplement-price">+2,00</span></div>
+                <div class="supplement-item"><span class="supplement-name">Uovo all'occhio di bue / Cheddar / Scamorza / Grana / Peperoni grigliati</span><span class="supplement-price">+1,50</span></div>
+                <div class="supplement-item"><span class="supplement-name">Cipolla alla piastra / Pomodoro a fette / Insalata</span><span class="supplement-price">+1,00</span></div>
+                <div class="supplement-item"><span class="supplement-name">Salse</span><span class="supplement-price">+0,50</span></div>
+            </div>
+        </div>
+
+        <!-- FINESTRA: HAMBURGER & PANINI -->
+        <div id="hamburger" class="menu-section">
+            <div class="menu-header">
+                <h3>Hamburger & Panini</h3>
+                <button class="close-btn" onclick="closeMenu('hamburger')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sub-category-title">Hamburger di Pollo Crispy</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Agri-Burger</span><span class="item-price">12,00</span></div><div class="item-desc">Hamburger fritto di pollo croccante ricoperto di corn flakes, cheddar, cappuccio viola, cipolla grigliata, salsa agrodolce alle albicocche.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Crocchi</span><span class="item-price">10,00</span></div><div class="item-desc">Hamburger fritto di pollo croccante ricoperto di corn flakes, insalata croccante, pomodoro, salsa mayo.</div></div>
+            </div>
+
+            <div class="sub-category-title">Panini & Hamburger di Angus</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pulled Pork</span><span class="item-price">8,50</span></div><div class="item-desc">Panino con coppa di maiale affumicata, formaggio cheddar, cappuccio.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Siesta Bacon</span><span class="item-price">10,00</span></div><div class="item-desc">Hamburger 100% angus australiano macinato fresco 220gr, cheddar, bacon, salsa BBQ & mayo.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Goloso</span><span class="item-price">11,50</span></div><div class="item-desc">Salsiccia, provola affumicata, peperoni grigliati, cipolla alla piastra, salsa mayo.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Il Classico</span><span class="item-price">10,00</span></div><div class="item-desc">Hamburger 100% angus australiano macinato fresco 220gr, pomodorini confit, cipolla alla piastra, insalata croccante, con salsa mayo.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Krabby</span><span class="item-price">8,50</span></div><div class="item-desc">Salsiccia, cheddar, cipolla alla piastra, maionese.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Double</span><span class="item-price">12,00</span></div><div class="item-desc">Doppio hamburger 100% Angus australiano, bacon doppio, doppio cheddar, crispy onion, salsa burger.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Basic</span><span class="item-price">9,00</span></div><div class="item-desc">Hamburger 100% Angus australiano 200gr, insalata, pomodoro a fette, maionese e ketchup.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">L'Italiano</span><span class="item-price">10,50</span></div><div class="item-desc">Hamburger 100% Angus australiano 200gr, rucola, grana a scaglie, salsa burger.</div></div>
+            </div>
+        </div>
+
+        <!-- FINESTRA: BOX MENU -->
+        <div id="box-menu" class="menu-section">
+            <div class="menu-header">
+                <h3>Box Menù (Promo Asporto & Domicilio)</h3>
+                <button class="close-btn" onclick="closeMenu('box-menu')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p style="color:#fff; margin-bottom: 20px; font-weight:600;"><i class="fa-solid fa-calendar-days"></i> Disponibile da mercoledì a venerdì. Comprende patatine fritte e una bibita a scelta (Acqua, Aranciata, Coca Cola).</p>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Box Hamburger</span><span class="item-price">13,00</span></div><div class="item-desc">Scelta tra Siesta Bacon, Basic, Italiano o Classico (Scottona 220gr) + patatine e bibita.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Box Wrap (Rotolo)</span><span class="item-price">13,00</span></div><div class="item-desc">Scelta tra Bandida, La Gentile, La Pata Pollo o La Crispy + patatine e bibita.</div></div>
+            </div>
+        </div>
+
+        <!-- FINESTRA: I FRITTI & CALZONCINI -->
+        <div id="fritti" class="menu-section">
+            <div class="menu-header">
+                <h3>I Fritti & Calzoncini</h3>
+                <button class="close-btn" onclick="closeMenu('fritti')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sub-category-title">Calzoncini di Pizza Fritta</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Totò</span><span class="item-price">6,00</span></div><div class="item-desc">Pomodoro e mozzarella.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pork</span><span class="item-price">6,50</span></div><div class="item-desc">Coppa di maiale affumicata, cheddar e porro.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Balanzone</span><span class="item-price">8,00</span></div><div class="item-desc">Crudo, stracciatella, granella pistacchio.</div></div>
+            </div>
+
+            <div class="sub-category-title">I Fritti</div>
+            <div class="menu-list">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Olive all'Ascolana (10 pz)</span><span class="item-price">5,00</span></div><div class="item-desc">Classiche olive fritte.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Nuggets di Pollo (7 pz)</span><span class="item-price">5,00</span></div><div class="item-desc">Bocconcini di pollo impanati.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Patate Fritte (a porzione)</span><span class="item-price">4,00</span></div><div class="item-desc">Porzione di patatine fritte croccanti.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mozzarelline Panate (10 pz)</span><span class="item-price">5,00</span></div><div class="item-desc">Deliziose mozzarelline impanate e fritte.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Striscioline di Pollo Dorate (7 pz)</span><span class="item-price">6,00</span></div><div class="item-desc">Teneri filetti di pollo dorati.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Nuggets Jalapeños (7 pz)</span><span class="item-price">5,00</span></div><div class="item-desc">Bocconcini piccanti con jalapeños.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gran Fritto Misto</span><span class="item-price">15,00</span></div><div class="item-desc">Misto di fritti sopra elencati.</div></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mozzarelline in Stick (7 pz)</span><span class="item-price">6,00</span></div><div class="item-desc">Stick di mozzarella filante.</div></div>
+            </div>
+        </div>
+
+        <!-- Call to Action Ordini -->
+        <div class="cta-box">
+            <h3 style="color:#fff; font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Ordina Ora</h3>
+            <p style="color:var(--text-muted); margin-bottom: 20px;">Vieni a trovarci a Schiavon o prenota la tua pizza d'asporto o a domicilio!</p>
+            
+            <h4 style="color:#fff; font-size: 1.05rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800;">Costo di Consegna</h4>
+            
+            <p style="margin-bottom: 5px; font-size: 0.85rem;">Domicilio nel comune di Schiavon: <strong>2,00</strong></p>
+            <p style="margin-bottom: 15px; font-size: 0.85rem;">Domicilio fuori comune: <strong>3,00</strong></p>
+            <p style="margin-bottom: 15px; font-size: 0.75rem; color: var(--text-muted);">*Il supplemento consegna a domicilio comprende tutte le pizze portate a casa</p>
+            <a href="tel:3395425565" class="cta-btn"><i class="fa-solid fa-phone"></i> Chiama 339 542 5565</a>
+        </div>
+
+        <!-- Informazioni e Contatti Centrati -->
+        <div class="info-section">
+            <div class="info-box">
+                <h3><i class="fa-solid fa-location-dot"></i> Indirizzo</h3>
+                <p>Via Roma, 73</p>
+                <p>36060 Schiavon (VI)</p>
+                <a href="https://www.google.com/maps/place/Pizzeria+La+Siesta+2.0+Da+Lambo/@45.6964162,11.6414535,608m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4778ce0c3596f0c5:0xedf3b30b018ba5ca!8m2!3d45.6964162!4d11.6440284!16s%2Fg%2F11h0zn2p1?entry=ttu&g_ep=EgoyMDI2MTAwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="maps-btn">
+                    <i class="fa-solid fa-map-location-dot"></i> Apri su Google Maps
+                </a>
+            </div>
+            <div class="info-box">
+                <h3><i class="fa-solid fa-clock"></i> Orari</h3>
+                <p>Aperto dal Martedì alla Domenica (Chiuso Lunedì)</p>
+                <p>Inverno: 18:00 - 21:30</p>
+                <p>Estate: 18:30 - 22:00</p>
+            </div>
+            <div class="info-box">
+                <h3><i class="fa-solid fa-phone"></i> Contatti</h3>
+                <p>Tel: <a href="tel:0444466962">0444 466962</a></p>
+                <p>Cell: <a href="tel:3395425565">339 542 5565</a></p>
+                <a href="https://www.instagram.com/la_siesta_2.0_da_lambo/" target="_blank" class="maps-btn">
+                    <i class="fa-brands fa-instagram"></i> Seguici su Instagram
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Pizzeria La Siesta 2.0 Da Lambo - Schiavon (VI). Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- JavaScript per gestire le finestre del menu -->
+    <script>
+        function openMenu(menuId) {
+            const sections = document.querySelectorAll('.menu-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            const target = document.getElementById(menuId);
+            if (target) {
+                target.classList.add('active');
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function closeMenu(menuId) {
+            const target = document.getElementById(menuId);
+            if (target) {
+                target.classList.remove('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
